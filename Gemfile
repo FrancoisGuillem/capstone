@@ -1,6 +1,7 @@
-# 
+#
 source 'https://rubygems.org'
 
+gem 'nokogiri', '1.6.7.2'
 gem 'rails', '4.2.6'
 gem 'rails-api', '~>0.4', '>=0.4.0'
 gem 'pry-rails', '~>0.3', '>=0.3.4'
