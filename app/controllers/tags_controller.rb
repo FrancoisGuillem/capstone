@@ -1,23 +1,22 @@
 class TagsController < ApplicationController
   before_action :set_tag, only: [:show, :update, :destroy]
+  before_action :authenticate_user!, only: [:create, :update, :destroy]
+  after_action :verify_authorized
+  wrap_parameters :tag, include: ["name"]
 
-  # GET /tags
-  # GET /tags.json
   def index
+    authorize Tag
     @tags = Tag.all
-
     render json: @tags
   end
 
-  # GET /tags/1
-  # GET /tags/1.json
   def show
+    authorize Tag
     render json: @tag
   end
 
-  # POST /tags
-  # POST /tags.json
   def create
+    authorize Tag
     @tag = Tag.new(tag_params)
 
     if @tag.save
@@ -27,9 +26,8 @@ class TagsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /tags/1
-  # PATCH/PUT /tags/1.json
   def update
+    authorize Tag
     @tag = Tag.find(params[:id])
 
     if @tag.update(tag_params)
@@ -39,9 +37,8 @@ class TagsController < ApplicationController
     end
   end
 
-  # DELETE /tags/1
-  # DELETE /tags/1.json
   def destroy
+    authorize Tag
     @tag.destroy
 
     head :no_content
