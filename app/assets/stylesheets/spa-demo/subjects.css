@@ -30,7 +30,12 @@ sd-thing-editor form {
 
 .tag-box .content {
   background-color: #f8f8f8;
-  min-height: 100px;
+}
+
+.tag-box .thing-list {
+  height: 200px;
+  padding:12px 0;
+  overflow: auto;
 }
 
 .tag-box .title {

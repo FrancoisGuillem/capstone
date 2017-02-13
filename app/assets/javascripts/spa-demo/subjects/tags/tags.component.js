@@ -74,10 +74,22 @@
     var vm = this;
     vm.authz = TagsAuthz;
     vm.newTagName = "";
+    vm.things = []
     vm.remove = remove;
     vm.update = update;
-
+    Tag.associated_things({id: vm.tag.id}).$promise.then(function(x) {console.log(x);vm.things = x});
+    activate();
+    return;
     ////////////////////
+    function activate() {
+      // vm.tag.$associated_things().then(function(x) {
+      //   console.log(x);
+      //   vm.things = x;
+      // }).catch(function(e) {
+      //   console.log(e);
+      // })
+    }
+
     function update() {
       var oldName = vm.tag.name;
       vm.tag.name = vm.newTagName;

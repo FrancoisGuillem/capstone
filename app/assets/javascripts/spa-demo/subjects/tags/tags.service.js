@@ -12,6 +12,11 @@
       {
         query: {method: 'GET', isArray: true},
         update: {method:"PUT"},
+        associated_things: {
+          method:"GET",
+          isArray: true,
+          url: APP_CONFIG.server_url + "/api/tags/:id/associated_things"
+        }
       }
     );
 

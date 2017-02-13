@@ -3,6 +3,11 @@
     <div class="title">
       {{$ctrl.tag.name}}
     </div>
+    <div class="thing-list">
+      <ul>
+        <li ng-repeat="thing in $ctrl.things">{{thing.thing_name}}</li>
+      </ul>
+    </div>
     <div class="admin-zone" ng-if="$ctrl.authz.canCreate()">
       <form class="form-inline">
         <div class="form-group">
