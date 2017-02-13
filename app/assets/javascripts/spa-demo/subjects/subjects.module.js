@@ -1,6 +1,6 @@
 (function() {
   "use strict";
 
-  angular
+  window.subjects = angular
     .module("spa-demo.subjects", []);
 })();
