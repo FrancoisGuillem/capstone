@@ -4,12 +4,12 @@ RSpec.describe "ThingTags", type: :request do
   include_context "db_cleanup_each"
   #originator becomes organizer after creation
   let(:originator) { apply_originator(signup(FactoryGirl.attributes_for(:user)), Thing) }
+  let(:tag) {FactoryGirl.create(:tag)}
 
   describe "manage thing/tag relationships" do
     let!(:user) { login originator }
     context "valid thing and tag" do
       let(:thing) { create_resource(things_path, :thing, :created) }
-      let(:tag) { create_resource(tags_path, :tag, :created) }
       let(:thing_tag_props) {
         FactoryGirl.attributes_for(:thing_tag, :tag_id=>tag["id"])
       }
@@ -65,6 +65,7 @@ RSpec.describe "ThingTags", type: :request do
           parsed_body.each do |thing|
             expect(thing["id"]).to be_in(unlinked_thing_ids)
             expect(thing).to include("thing_name")
+            expect(thing).to_not include("description")
           end
       end
     end
@@ -131,7 +132,7 @@ RSpec.describe "ThingTags", type: :request do
   describe "Thingtag Authn policies" do
     let(:account)         { signup FactoryGirl.attributes_for(:user) }
     let(:thing_resources) { 3.times.map { create_resource(things_path, :thing, :created) } }
-    let(:tag_resources) { 4.times.map { create_resource(tags_path, :tag, :created) } }
+    let(:tag_resources) { 4.times.map { FactoryGirl.create(:tag) } }
     let(:things)          { thing_resources.map {|t| Thing.find(t["id"]) } }
     let(:linked_thing)    { things[0] }
     let(:linked_thing_id) { linked_thing.id }
@@ -155,7 +156,7 @@ RSpec.describe "ThingTags", type: :request do
       end
     end
 
-    context "user is anonymous" do
+    context "user is anonymous (tag)" do
       before(:each) { logout }
       it_should_behave_like "can get links"
       it_should_behave_like "get linkables", 0
@@ -163,7 +164,7 @@ RSpec.describe "ThingTags", type: :request do
       it_should_behave_like "cannot update link", :unauthorized
       it_should_behave_like "cannot delete link", :unauthorized
     end
-    context "user is authenticated" do
+    context "user is authenticated (tag)" do
       before(:each) { login account }
       it_should_behave_like "can get links"
       it_should_behave_like "get linkables", 0
@@ -171,24 +172,24 @@ RSpec.describe "ThingTags", type: :request do
       it_should_behave_like "cannot update link", :forbidden
       it_should_behave_like "cannot delete link", :forbidden
     end
-    context "user is member" do
+    context "user is member (tag)" do
       before(:each) do
         login apply_member(account, things)
       end
       it_should_behave_like "can get links"
       it_should_behave_like "get linkables", 2, [Role::MEMBER]
-      it_should_behave_like "can create link"
+      it_should_behave_like "cannot create link", :forbidden
       it_should_behave_like "cannot update link", :forbidden
       it_should_behave_like "cannot delete link", :forbidden
     end
-    context "user is organizer" do
+    context "user is organizer (tag)" do
       it_should_behave_like "can get links"
       it_should_behave_like "get linkables", 2, [Role::ORGANIZER]
       it_should_behave_like "can create link"
       it_should_behave_like "can update link"
       it_should_behave_like "can delete link"
     end
-    context "user is admin" do
+    context "user is admin (tag)" do
       before(:each) { login apply_admin(account) }
       it_should_behave_like "can get links"
       it_should_behave_like "get linkables", 0

@@ -45,10 +45,7 @@ RSpec.describe "Tags", type: :request do
       expect(response).to have_http_status(:created)
       payload=parsed_body
       expect(payload).to include("id")
-      expect(payload).to include("caption"=>tag_props[:caption])
-      expect(payload).to include("user_roles")
-      expect(payload["user_roles"]).to include(Role::ORGANIZER)
-      expect(Role.where(:user_id=>user["id"],:role_name=>Role::ORGANIZER)).to exist
+      expect(payload).to include("name"=>tag_props[:name])
     end
   end
   shared_examples "can update" do
@@ -88,8 +85,8 @@ RSpec.describe "Tags", type: :request do
   describe "Tag authorization" do
     let(:alt_account) { signup FactoryGirl.attributes_for(:user) }
     let(:admin_account) { apply_admin(signup FactoryGirl.attributes_for(:user)) }
-    let(:tag_props) { FactoryGirl.attributes_for(:tag, :with_caption) }
-    let(:tag_resources) { 3.times.map { create_resource tags_path, :tag } }
+    let(:tag_props) { FactoryGirl.attributes_for(:tag) }
+    let(:tag_resources) { 3.times.map { FactoryGirl.create(:tag) } }
     let(:tag_id)  { tag_resources[0]["id"] }
     let(:tag)     { Tag.find(tag_id) }
 
@@ -104,7 +101,7 @@ RSpec.describe "Tags", type: :request do
     context "caller is authenticated organizer" do
       let!(:user)   { login account }
       before(:each) { tag_resources }
-      it_should_behave_like "cannot create"
+      it_should_behave_like "cannot create", :forbidden
       it_should_behave_like "cannot update", :forbidden
       it_should_behave_like "cannot delete", :forbidden
       it_should_behave_like "all fields present", [Role::ORGANIZER]

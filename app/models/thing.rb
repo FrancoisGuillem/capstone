@@ -12,6 +12,6 @@ class Thing < ActiveRecord::Base
 
   scope :with_tag, ->(tag) {where(id: ThingTag.select(:thing_id).where(tag: tag))}
   scope :without_tag, ->(tag) { where.not(id: ThingTag.select(:thing_id).where(tag: tag)) }
-  scope :just_the_name, -> {select("id, name AS thing_name")}
+  scope :just_the_name, -> {unscope(:select).select("things.id, name AS thing_name")}
 
 end
