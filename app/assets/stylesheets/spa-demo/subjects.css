@@ -11,3 +11,14 @@ sd-thing-editor form {
   padding-left: 15px;
   padding-right: 15px;
 }
+
+.admin-zone {
+  border: solid 1px #e7e7e7;
+  background-color: #f8f8f8;
+  padding: 12px;
+  margin-bottom: 12px;
+}
+
+.admin-zone h3 {
+  margin-top: 0;
+}

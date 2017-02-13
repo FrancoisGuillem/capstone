@@ -2,7 +2,7 @@
   'use strict';
 
   angular.module("spa-demo.subjects")
-    .component("glop", {
+    .component("sdTagList", {
       templateUrl: tagListHtml,
       controller: tagListController,
     });
@@ -19,5 +19,21 @@
     Tag.query().$promise.then(function(x, d) {
       vm.taglist = x;
     })
+  }
+
+  angular.module("spa-demo.subjects")
+    .component("sdTagForm", {
+      templateUrl: tagFormHtml,
+      controller: tagFormController
+    })
+
+  tagFormHtml.$inject = ["spa-demo.config.APP_CONFIG"];
+  function tagFormHtml(APP_CONFIG) {
+    return APP_CONFIG.tag_form_html;
+  }
+
+  tagFormController.$inject = ["$q", "spa-demo.subjects.Tag"];
+  function tagFormController($q, Tag) {
+    console.log("tagFormController");
   }
 }());
