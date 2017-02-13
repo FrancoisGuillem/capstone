@@ -48,3 +48,4 @@
 
 //= require spa-demo/subjects/tags/tags.service
 //= require spa-demo/subjects/tags/tags.component
+//= require spa-demo/subjects/tags/tags_authz.service.js

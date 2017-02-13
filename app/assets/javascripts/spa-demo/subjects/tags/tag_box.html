@@ -1,0 +1,25 @@
+<div class="tag-box col-sm-6 col-md-4">
+  <div class="content">
+    <div class="title">
+      {{$ctrl.tag.name}}
+    </div>
+    <div class="admin-zone" ng-if="$ctrl.authz.canCreate()">
+      <form class="form-inline">
+        <div class="form-group">
+          <input type="text"
+                 class="form-control"
+                 id="tag_name"
+                 ng-model="$ctrl.newTagName"
+                 name="tag_name"
+                 placeholder="New category name"
+                 required>
+        </div>
+        <button type="submit" class="btn btn-default" ng-click="$ctrl.update()">
+          Change name
+        </button>
+        <button class="btn btn-danger" ng-click="$ctrl.remove()">
+          Delete
+        </button>
+    </div>
+  </div>
+</div>

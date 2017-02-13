@@ -14,11 +14,29 @@ sd-thing-editor form {
 
 .admin-zone {
   border: solid 1px #e7e7e7;
-  background-color: #f8f8f8;
+  background-color: #ffff55;
   padding: 12px;
   margin-bottom: 12px;
 }
 
 .admin-zone h3 {
   margin-top: 0;
+}
+
+/* Tag Box */
+.tag-box {
+  margin-bottom: 24px;
+}
+
+.tag-box .content {
+  background-color: #f8f8f8;
+  min-height: 100px;
+}
+
+.tag-box .title {
+  background-color: rgba(0,0,0,0.8);
+  width:100%;
+  color: white;
+  font-size: 2em;
+  padding: 0 12px;
 }
