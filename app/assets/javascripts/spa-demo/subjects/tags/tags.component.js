@@ -69,25 +69,39 @@
     return APP_CONFIG.tag_box_html;
   }
 
-  tagBoxController.$inject = ["$state", "spa-demo.subjects.Tag", "spa-demo.subjects.TagsAuthz"];
-  function tagBoxController($state, Tag, TagsAuthz) {
+  tagBoxController.$inject = ["$scope", "$state", "spa-demo.subjects.Tag", "spa-demo.subjects.TagsAuthz"];
+  function tagBoxController($scope, $state, Tag, TagsAuthz) {
     var vm = this;
     vm.authz = TagsAuthz;
     vm.newTagName = "";
-    vm.things = []
+    vm.things = [];
+    vm.linkableThings = [];
     vm.remove = remove;
     vm.update = update;
-    Tag.associated_things({id: vm.tag.id}).$promise.then(function(x) {console.log(x);vm.things = x});
     activate();
     return;
     ////////////////////
     function activate() {
-      // vm.tag.$associated_things().then(function(x) {
-      //   console.log(x);
-      //   vm.things = x;
-      // }).catch(function(e) {
-      //   console.log(e);
-      // })
+      // Get things associated to this category
+      Tag.associated_things({id: vm.tag.id}).$promise.then(function(x) {
+        vm.things = x;
+      });
+      // Get things that user can associate to this category
+      $scope.$watch(
+        function() {
+          return vm.authz.canGetLinkables()
+        },
+        function() {
+          if (vm.authz.canGetLinkables()) {
+            Tag.linkable_things({id: vm.tag.id}).$promise.then(function(x) {
+              vm.linkableThings = x;
+            })
+          } else {
+            vm.linkableThings = [];
+          }
+        }
+      );
+
     }
 
     function update() {

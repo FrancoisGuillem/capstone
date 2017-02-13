@@ -45,3 +45,8 @@ sd-thing-editor form {
   font-size: 2em;
   padding: 0 12px;
 }
+
+.tag-box .link-things {
+  padding: 6px;
+  border-top: solid 1px #e7e7e7;
+}

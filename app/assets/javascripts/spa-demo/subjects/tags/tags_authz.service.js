@@ -30,6 +30,10 @@
       return Authz.isAdmin();
     };
 
+    TagsAuthz.prototype.canGetLinkables = function() {
+      return Authz.isAuthenticated();
+    }
+
     return new TagsAuthz();
   }
 })();
