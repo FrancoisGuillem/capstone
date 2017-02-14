@@ -13,17 +13,17 @@
     </div>
     <!-- Organizers only: Add a tthing to this category -->
     <div class="link-things" ng-if="$ctrl.authz.canGetLinkables()">
-      <form class="form-inline" ng-if="$ctrl.linkableThings.length > 0">
+      <form class="form-inline" name="addThing" ng-if="$ctrl.linkableThings.length > 0">
         <select class="" name="" ng-model="$ctrl.selectedThing" required>
           <option ng-repeat="option in $ctrl.linkableThings" ng-value="option.id">
             {{option.thing_name}}
           </option>
         </select>
-        <button type="submit" class="btn btn-default" ng-click="$ctrl.addToCategory()">
+        <button type="submit" class="btn btn-default" ng-click="$ctrl.addToCategory()" ng-disabled="addThing.$invalid">
           Add to this category
         </button>
       </form>
-      <p ng-if="$ctrl.thingsAuthz.canCreate()"><a>Create a thing</a></p>
+      <p ng-if="$ctrl.thingsAuthz.canCreate()"><a ui-sref="things()">Create a thing</a></p>
     </div>
     <!-- Admin only: update name of a category or remove it -->
     <div class="admin-zone" ng-if="$ctrl.authz.canCreate()">
