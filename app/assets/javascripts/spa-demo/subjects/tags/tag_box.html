@@ -27,7 +27,7 @@
     </div>
     <!-- Admin only: update name of a category or remove it -->
     <div class="admin-zone" ng-if="$ctrl.authz.canCreate()">
-      <form class="form-inline">
+      <form class="form-inline" name="updateName">
         <div class="form-group">
           <input type="text"
                  class="form-control"
@@ -37,7 +37,7 @@
                  placeholder="New category name"
                  required>
         </div>
-        <button type="submit" class="btn btn-default" ng-click="$ctrl.update()">
+        <button type="submit" class="btn btn-default" ng-click="$ctrl.update()" ng-disabled="updateName.$invalid">
           Change name
         </button>
         <button class="btn btn-danger" ng-click="$ctrl.remove()">
