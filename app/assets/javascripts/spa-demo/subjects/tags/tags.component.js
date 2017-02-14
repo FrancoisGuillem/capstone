@@ -69,15 +69,26 @@
     return APP_CONFIG.tag_box_html;
   }
 
-  tagBoxController.$inject = ["$scope", "$state", "spa-demo.subjects.Tag", "spa-demo.subjects.TagsAuthz"];
-  function tagBoxController($scope, $state, Tag, TagsAuthz) {
+  tagBoxController.$inject = [
+    "$scope",
+    "$state",
+    "spa-demo.subjects.Tag",
+    "spa-demo.subjects.TagsAuthz",
+    "spa-demo.subjects.ThingsAuthz"
+  ];
+  function tagBoxController($scope, $state, Tag, TagsAuthz, ThingsAuthz) {
     var vm = this;
     vm.authz = TagsAuthz;
+    vm.thingsAuthz = ThingsAuthz;
     vm.newTagName = "";
     vm.things = [];
     vm.linkableThings = [];
+    vm.selectedThing = null;
+
     vm.remove = remove;
     vm.update = update;
+    vm.addToCategory = addToCategory;
+
     activate();
     return;
     ////////////////////
@@ -124,6 +135,15 @@
       }).catch(function(e) {
         console.log(e);
       })
+    }
+
+    function addToCategory() {
+      Tag.associate_things({id:vm.tag.id, thing_id:vm.selectedThing}).$promise.then(function(x) {
+        activate();
+        vm.selectedThing = null;
+      }).catch(function(e) {
+        console.log(e);
+      });
     }
 
   }

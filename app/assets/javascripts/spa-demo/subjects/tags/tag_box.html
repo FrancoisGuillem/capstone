@@ -3,14 +3,18 @@
     <div class="title">
       {{$ctrl.tag.name}}
     </div>
+    <!-- List of things associated to this tag -->
     <div class="thing-list">
       <ul>
-        <li ng-repeat="thing in $ctrl.things">{{thing.thing_name}}</li>
+        <li ng-repeat="thing in $ctrl.things">
+          <a ui-sref="things({id:thing.id})">{{thing.thing_name}}</a>
+        </li>
       </ul>
     </div>
-    <div class="link-things" ng-if="$ctrl.linkableThings.length > 0">
-      <form class="form-inline">
-        <select class="" name="" ng-model="$ctrl.selectedThing">
+    <!-- Organizers only: Add a tthing to this category -->
+    <div class="link-things" ng-if="$ctrl.authz.canGetLinkables()">
+      <form class="form-inline" ng-if="$ctrl.linkableThings.length > 0">
+        <select class="" name="" ng-model="$ctrl.selectedThing" required>
           <option ng-repeat="option in $ctrl.linkableThings" ng-value="option.id">
             {{option.thing_name}}
           </option>
@@ -19,7 +23,9 @@
           Add to this category
         </button>
       </form>
+      <p ng-if="$ctrl.thingsAuthz.canCreate()"><a>Create a thing</a></p>
     </div>
+    <!-- Admin only: update name of a category or remove it -->
     <div class="admin-zone" ng-if="$ctrl.authz.canCreate()">
       <form class="form-inline">
         <div class="form-group">
