@@ -10,8 +10,8 @@
     return APP_CONFIG.current_tag_html;
   }
 
-  currentTagsController.$inject = ["spa-demo.subjects.Tag"];
-  function currentTagsController(Tag) {
+  currentTagsController.$inject = ["spa-demo.subjects.Tag", "spa-demo.subjects.currentSubjects"];
+  function currentTagsController(Tag, currentSubjects) {
     var vm = this;
 
     vm.tags = [];
@@ -22,7 +22,7 @@
 
     Tag.query().$promise.then(function(x, d) {
       vm.tags = x;
-      vm.selected = vm.tags[0];
+      select(vm.tags[0]);
     })
 
     //////////////////////////
@@ -32,6 +32,7 @@
         return;
       }
       vm.selected = tag;
+      currentSubjects.filterByTag(tag);
       console.log("selected", tag);
     }
 
