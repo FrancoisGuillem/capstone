@@ -1,0 +1,12 @@
+.find-by-tag-page .area-pane div {
+  height: 44vh;
+  overflow-y: auto;
+}
+
+.find-by-tag-page .area-pane.expanded div {
+  height: 88vh;
+}
+
+.find-by-tag-page h2 {
+  margin: 5px 0;
+}

@@ -1,0 +1,28 @@
+<div class="find-by-tag-page col-xs-12">
+  <sd-areas sd-areas-side>
+    <div class="areas-left"
+         ng-hide="sideVM.isHidden('left')"
+         ng-class="sideVM.isHidden('right') ? 'col-sm-12':'col-sm-6 col-md-5 col-lg-4'">
+      <sd-area label="Categories" position="left">
+        <div class="">
+          <h2>Categories</h2>
+        </div>
+      </sd-area>
+      <sd-area label="Things" position="left">
+        <div class="">
+          <h2>results</h2>
+          <sd-current-things></sd-current-things>
+        </div>
+      </sd-area>
+    </div>
+    <div class="areas-right"
+         ng-hide="sideVM.isHidden('right')"
+         ng-class="sideVM.isHidden('left') ? 'col-sm-12':'col-sm-6 col-md-7 col-lg-8'">
+       <sd-area label="Map" position="right">
+         <div class="">
+           map
+         </div>
+       </sd-area>
+    </div>
+  </sd-areas>
+</div>
