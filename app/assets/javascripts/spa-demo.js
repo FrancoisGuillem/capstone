@@ -67,6 +67,7 @@
 //= require spa-demo/subjects/tags/tags.service
 //= require spa-demo/subjects/tags/tags.component
 //= require spa-demo/subjects/tags/tags_authz.service.js
+//= require spa-demo/subjects/current_tags/current_tags.component.js
 
 //= require spa-demo/subjects/current_subjects/current_subjects.service
 //= require spa-demo/subjects/current_subjects/current_subjects.component

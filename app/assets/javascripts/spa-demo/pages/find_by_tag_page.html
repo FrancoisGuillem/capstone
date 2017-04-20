@@ -4,22 +4,28 @@
          ng-hide="sideVM.isHidden('left')"
          ng-class="sideVM.isHidden('right') ? 'col-sm-12':'col-sm-6 col-md-5 col-lg-4'">
       <sd-area label="Categories" position="left">
-        <div class="">
+        <div class="categories">
           <h2>Categories</h2>
+          <sd-current-tags></sd-current-tags>
         </div>
       </sd-area>
       <sd-area label="Things" position="left">
-        <div class="">
-          <h2>results</h2>
-          <sd-current-things></sd-current-things>
-        </div>
+        <sd-tabs>
+          <sd-tab label="Things">
+            <sd-current-things></sd-current-things>
+          </sd-tab>
+
+          <sd-tab label="Images">
+            <sd-current-images></sd-current-images>
+          </sd-tab>
+        </sd-tabs>
       </sd-area>
     </div>
     <div class="areas-right"
          ng-hide="sideVM.isHidden('right')"
          ng-class="sideVM.isHidden('left') ? 'col-sm-12':'col-sm-6 col-md-7 col-lg-8'">
        <sd-area label="Map" position="right">
-         <div class="">
+         <div class="map">
            map
          </div>
        </sd-area>

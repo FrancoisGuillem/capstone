@@ -1,10 +1,10 @@
-.find-by-tag-page .area-pane div {
-  height: 44vh;
+.find-by-tag-page .area-pane .categories {
+  height: 42vh;
   overflow-y: auto;
 }
 
-.find-by-tag-page .area-pane.expanded div {
-  height: 88vh;
+.find-by-tag-page .area-pane.expanded .categories, .find-by-tag-page .map {
+  height: 92vh;
 }
 
 .find-by-tag-page h2 {
