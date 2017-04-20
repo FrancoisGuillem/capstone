@@ -4,6 +4,7 @@ namespace :ptourist do
   ORIGINATORS=["carol","alice"]
   BOYS=["greg","peter","bobby"]
   GIRLS=["marsha","jan","cindy"]
+  BASE_URL="http://dev9.jhuep.com/fullstack-capstone"
 
   def user_name first_name
     last_name = (first_name=="alice") ? "nelson" : "brady"
@@ -51,9 +52,21 @@ namespace :ptourist do
 
   def create_image organizer, img
     puts "building image for #{img[:caption]}, by #{organizer.name}"
-    image=Image.create(:creator_id=>organizer.id,:caption=>img[:caption])
+    image=Image.create(:creator_id=>organizer.id,:caption=>img[:caption],:lat=>img[:lat],:lng=>img[:lng])
     organizer.add_role(Role::ORGANIZER, image).save
+    create_image_content img.merge(:image=>image)
   end
+
+  def create_image_content img
+    url="#{BASE_URL}/#{img[:path]}"
+    puts "downloading #{url}"
+    contents = open(url,{ssl_verify_mode: OpenSSL::SSL::VERIFY_NONE}).read
+    original_content=ImageContent.new(:image_id=>img[:image].id,
+                                      :content_type=>"image/jpeg", 
+                                      :content=>BSON::Binary.new(contents))
+    ImageContentCreator.new(img[:image], original_content).build_contents.save!
+  end
+
   def create_thing thing, organizer, members, images
     thing=Thing.create!(thing)
     organizer.add_role(Role::ORGANIZER, thing).save
@@ -67,11 +80,12 @@ namespace :ptourist do
     puts "added members for #{thing.name}: #{first_names(m)}"
     images.each do |img|
       puts "building image for #{thing.name}, #{img[:caption]}, by #{organizer.name}"
-      image=Image.create(:creator_id=>organizer.id,:caption=>img[:caption])
+      image=Image.create(:creator_id=>organizer.id,:caption=>img[:caption],:lat=>img[:lat],:lng=>img[:lng])
       organizer.add_role(Role::ORGANIZER, image).save
       ThingImage.new(:thing=>thing, :image=>image, 
                      :creator_id=>organizer.id)
                 .tap {|ti| ti.priority=img[:priority] if img[:priority]}.save!
+      create_image_content img.merge(:image=>image)
     end
   end
 
@@ -326,8 +340,8 @@ Work up a sweat in our 24-hour StayFit Gym, which features Life Fitness® cardio
     organizer=get_user("alice")
     image= {:path=>"db/bta/skyline_water_level.jpg",
      :caption=>"Skyline Water Level",
-     :lng=>-76.6284366, 
-     :lat=>39.2780493
+     :lng=>-76.606205,
+     :lat=>39.281114
      }
     create_image organizer, image
 
