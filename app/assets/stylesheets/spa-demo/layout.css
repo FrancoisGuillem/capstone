@@ -75,7 +75,7 @@ div.area-pane div.tab-content {
   overflow-y: auto;
 }
 div.area-pane.expanded div.tab-content {
-  height: 93vh;
+  height: 87vh;
 }
 
 div.area-pane ul.items {
